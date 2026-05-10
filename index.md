@@ -4,6 +4,51 @@
 <p>
 <p>
 <a href="https://www.youtube.com/watch?v=CXDz1je70mk&list=RDCXDz1je70mk&start_radio=1&t=158s"><div><font color="#000">.</font></div><div></div><div><font color="#000"> </font><font color="#ff2d00"> </font></div></a>
+</p>
+
+
+<script>
+(function () {
+  const ACTIVATION_CLICKS = 7;
+  const LOOP_DURATION_MS = 180000; // 3 minutos
+
+  const clicksKey = 'heartClicks';
+  const loopUntilKey = 'loopUntil';
+
+  const now = Date.now();
+
+  // Contar visitas/clics
+  let clicks = parseInt(localStorage.getItem(clicksKey) || '0', 10);
+  clicks++;
+  localStorage.setItem(clicksKey, clicks);
+
+  // Activar loop al llegar al umbral
+  if (clicks === ACTIVATION_CLICKS) {
+    localStorage.setItem(loopUntilKey, now + LOOP_DURATION_MS);
+  }
+
+  const loopUntil = parseInt(localStorage.getItem(loopUntilKey) || '0', 10);
+
+  // Si el loop está activo y no ha expirado
+  if (now < loopUntil) {
+    const here = window.location.href;
+
+    if (here.includes('un_hombre_desahuciado_sonriendo')) {
+      window.location.href = 'https://guerrillaradio.github.io/Q/';
+    }
+
+    if (here.includes('/Q/')) {
+      window.location.href = 'https://guerrillaradio.github.io/un_hombre_desahuciado_sonriendo/';
+    }
+  }
+
+  // Si el loop ya expiró → disolución limpia
+  if (loopUntil && now >= loopUntil) {
+    localStorage.removeItem(loopUntilKey);
+  }
+})();
+</script>
+
  
 
 
